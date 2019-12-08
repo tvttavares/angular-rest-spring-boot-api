@@ -1,2 +1,2 @@
 # angular-rest-spring-boot-api
-Curso Fullstack Angular e Spring - API
+Curso algaworks "Fullstack Angular e Spring"

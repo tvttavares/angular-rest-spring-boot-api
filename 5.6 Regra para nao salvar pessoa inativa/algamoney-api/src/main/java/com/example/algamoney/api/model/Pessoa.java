@@ -59,7 +59,7 @@ public class Pessoa {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-
+	
 	@JsonIgnore
 	@Transient
 	public boolean isInativo() {
@@ -90,5 +90,5 @@ public class Pessoa {
 			return false;
 		return true;
 	}
-
+	
 }

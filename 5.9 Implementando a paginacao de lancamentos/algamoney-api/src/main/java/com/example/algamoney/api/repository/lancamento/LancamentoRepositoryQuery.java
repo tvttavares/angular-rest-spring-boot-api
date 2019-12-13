@@ -9,5 +9,5 @@ import com.example.algamoney.api.repository.filter.LancamentoFilter;
 public interface LancamentoRepositoryQuery {
 
 	public Page<Lancamento> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable);
-
+	
 }

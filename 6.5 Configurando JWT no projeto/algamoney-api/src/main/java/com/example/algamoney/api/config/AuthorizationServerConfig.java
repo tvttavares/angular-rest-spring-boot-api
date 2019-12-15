@@ -18,19 +18,25 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-
+	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("angular").secret("@ngul@0").scopes("read", "write")
-				.authorizedGrantTypes("password").accessTokenValiditySeconds(1800);
+		clients.inMemory()
+			.withClient("angular")
+			.secret("@ngul@r0")
+			.scopes("read", "write")
+			.authorizedGrantTypes("password")
+			.accessTokenValiditySeconds(1800);
 	}
-
+	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.tokenStore(tokenStore()).accessTokenConverter(accessTokenConverter())
-				.authenticationManager(authenticationManager);
+		endpoints
+			.tokenStore(tokenStore())
+			.accessTokenConverter(accessTokenConverter())
+			.authenticationManager(authenticationManager);
 	}
-
+	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
@@ -42,15 +48,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
 	}
-
-//	Basic
-//	@Override
-//	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-//		endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
-//	}
-//	
-//	@Bean
-//	public TokenStore tokenStore() {
-//		return new InMemoryTokenStore();
-//	}
+	
 }

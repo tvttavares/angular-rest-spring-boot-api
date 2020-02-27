@@ -1,4 +1,4 @@
-package com.algaworks.algamoney.api.resource;
+package com.example.algamoney.api.resource;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
+import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @RestController
 @RequestMapping("/tokens")
 public class TokenResource {
-
+	
 	@Autowired
 	private AlgamoneyApiProperty algamoneyApiProperty;
 
@@ -26,8 +26,9 @@ public class TokenResource {
 		cookie.setSecure(algamoneyApiProperty.getSeguranca().isEnableHttps());
 		cookie.setPath(req.getContextPath() + "/oauth/token");
 		cookie.setMaxAge(0);
-
+		
 		resp.addCookie(cookie);
 		resp.setStatus(HttpStatus.NO_CONTENT.value());
 	}
+	
 }

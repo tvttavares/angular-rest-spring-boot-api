@@ -1,18 +1,14 @@
-package com.algaworks.algamoney.api.service;
-
-import java.util.Optional;
-
-import javax.validation.Valid;
+package com.example.algamoney.api.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.algaworks.algamoney.api.model.Lancamento;
-import com.algaworks.algamoney.api.model.Pessoa;
-import com.algaworks.algamoney.api.repository.LancamentoRepository;
-import com.algaworks.algamoney.api.repository.PessoaRepository;
-import com.algaworks.algamoney.api.service.exception.PessoaInexistenteOuInativaException;
+import com.example.algamoney.api.model.Lancamento;
+import com.example.algamoney.api.model.Pessoa;
+import com.example.algamoney.api.repository.LancamentoRepository;
+import com.example.algamoney.api.repository.PessoaRepository;
+import com.example.algamoney.api.service.exception.PessoaInexistenteOuInativaException;
 
 @Service
 public class LancamentoService {
@@ -23,11 +19,8 @@ public class LancamentoService {
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 
-	public Lancamento salvar(@Valid Lancamento lancamento) {
-		Optional<Pessoa> pessoa = pessoaRepository.findById(lancamento.getPessoa().getCodigo());
-		if (!pessoa.isPresent() || pessoa.get().isInativo()) {
-			throw new PessoaInexistenteOuInativaException();
-		}
+	public Lancamento salvar(Lancamento lancamento) {
+		validarPessoa(lancamento);
 
 		return lancamentoRepository.save(lancamento);
 	}
@@ -44,22 +37,22 @@ public class LancamentoService {
 	}
 
 	private void validarPessoa(Lancamento lancamento) {
-		Optional<Pessoa> pessoa = null;
+		Pessoa pessoa = null;
 		if (lancamento.getPessoa().getCodigo() != null) {
-			pessoa = pessoaRepository.findById(lancamento.getPessoa().getCodigo());
+			pessoa = pessoaRepository.findOne(lancamento.getPessoa().getCodigo());
 		}
 
-		if (pessoa == null || pessoa.get().isInativo()) {
+		if (pessoa == null || pessoa.isInativo()) {
 			throw new PessoaInexistenteOuInativaException();
 		}
 	}
 
 	private Lancamento buscarLancamentoExistente(Long codigo) {
-		Optional<Lancamento> lancamentoSalvo = lancamentoRepository.findById(codigo);
-		if (!lancamentoSalvo.isPresent()) {
+		Lancamento lancamentoSalvo = lancamentoRepository.findOne(codigo);
+		if (lancamentoSalvo == null) {
 			throw new IllegalArgumentException();
 		}
-		return lancamentoSalvo.get();
+		return lancamentoSalvo;
 	}
 
 }

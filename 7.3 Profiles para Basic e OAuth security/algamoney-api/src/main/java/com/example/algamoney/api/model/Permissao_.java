@@ -1,4 +1,4 @@
-package com.algaworks.algamoney.api.model;
+package com.example.algamoney.api.model;
 
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
@@ -10,9 +10,6 @@ public abstract class Permissao_ {
 
 	public static volatile SingularAttribute<Permissao, Long> codigo;
 	public static volatile SingularAttribute<Permissao, String> descricao;
-
-	public static final String CODIGO = "codigo";
-	public static final String DESCRICAO = "descricao";
 
 }
 

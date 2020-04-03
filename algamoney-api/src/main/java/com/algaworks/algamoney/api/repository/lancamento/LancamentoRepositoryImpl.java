@@ -16,10 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.algamoney.api.model.CategoriaStaticModel_;
 import com.algaworks.algamoney.api.model.Lancamento;
-import com.algaworks.algamoney.api.model.LancamentoStaticModel_;
-import com.algaworks.algamoney.api.model.PessoaStaticModel_;
 import com.algaworks.algamoney.api.repository.filter.LancamentoFilter;
 import com.algaworks.algamoney.api.repository.projection.ResumoLancamento;
 
@@ -50,10 +47,9 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class);
 		Root<Lancamento> root = criteria.from(Lancamento.class);
 
-		criteria.select(builder.construct(ResumoLancamento.class, root.get(LancamentoStaticModel_.codigo),
-				root.get(LancamentoStaticModel_.descricao), root.get(LancamentoStaticModel_.dataVencimento),
-				root.get(LancamentoStaticModel_.dataPagamento), root.get(LancamentoStaticModel_.valor), root.get(LancamentoStaticModel_.tipo),
-				root.get(LancamentoStaticModel_.categoria).get(CategoriaStaticModel_.nome), root.get(LancamentoStaticModel_.pessoa).get(PessoaStaticModel_.nome)));
+		criteria.select(builder.construct(ResumoLancamento.class, root.get("codigo"), root.get("descricao"),
+				root.get("dataVencimento"), root.get("dataPagamento"), root.get("valor"), root.get("tipo"),
+				root.get("categoria").get("nome"), root.get("pessoa").get("nome")));
 
 		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
 		criteria.where(predicates);
@@ -69,18 +65,18 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		List<Predicate> predicates = new ArrayList<>();
 
 		if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
-			predicates.add(builder.like(builder.lower(root.get(LancamentoStaticModel_.descricao)),
+			predicates.add(builder.like(builder.lower(root.get("descricao")),
 					"%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
 		}
 
 		if (lancamentoFilter.getDataVencimentoDe() != null) {
-			predicates.add(builder.greaterThanOrEqualTo(root.get(LancamentoStaticModel_.dataVencimento),
-					lancamentoFilter.getDataVencimentoDe()));
+			predicates.add(
+					builder.greaterThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoDe()));
 		}
 
 		if (lancamentoFilter.getDataVencimentoAte() != null) {
-			predicates.add(builder.lessThanOrEqualTo(root.get(LancamentoStaticModel_.dataVencimento),
-					lancamentoFilter.getDataVencimentoAte()));
+			predicates.add(
+					builder.lessThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoAte()));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);

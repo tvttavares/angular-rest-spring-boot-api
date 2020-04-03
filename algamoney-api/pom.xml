@@ -72,12 +72,6 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
-		<!-- Jpa Model -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-		</dependency>
-
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
